@@ -1,0 +1,13 @@
+# Exclude private reference contact details
+Renovation Booklet/EH Resume Data.txt
+
+# Exclude deployment metadata and instructions
+Renovation Booklet/RenovationSiteUpload.md
+
+# Exclude scratch files and scripts
+temp-gallery.html
+create-temp-gallery.ps1
+
+# System files
+.DS_Store
+Thumbs.db
