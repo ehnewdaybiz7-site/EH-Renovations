@@ -611,7 +611,7 @@
         "title": "White Cabinetry Remodel",
         "category": "kitchen",
         "desc": "White kitchen cabinets, beige countertops, stainless steel sink, and wood flooring",
-        "active": true,
+        "active": false,
         "sizeBytes": 1437268,
         "sizeFormatted": "1.37 MB"
     },
