@@ -17,7 +17,7 @@
         "title": "20200129 235312 HDR",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 445405,
         "sizeFormatted": "434.97 KB"
     },
@@ -28,7 +28,7 @@
         "title": "20200129 235330 HDR",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 898226,
         "sizeFormatted": "877.17 KB"
     },
@@ -39,7 +39,7 @@
         "title": "20200129 235423 HDR",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 561123,
         "sizeFormatted": "547.97 KB"
     },
@@ -61,7 +61,7 @@
         "title": "20230520 094720",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 5053372,
         "sizeFormatted": "4.82 MB"
     },
@@ -72,7 +72,7 @@
         "title": "20230520 094726",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 5045145,
         "sizeFormatted": "4.81 MB"
     },
@@ -83,7 +83,7 @@
         "title": "20230603 144457",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4152279,
         "sizeFormatted": "3.96 MB"
     },
@@ -94,7 +94,7 @@
         "title": "20230603 144505",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 3703043,
         "sizeFormatted": "3.53 MB"
     },
@@ -105,7 +105,7 @@
         "title": "20230603 144519",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 5826133,
         "sizeFormatted": "5.56 MB"
     },
@@ -138,7 +138,7 @@
         "title": "20230603 144623",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 5503444,
         "sizeFormatted": "5.25 MB"
     },
@@ -171,7 +171,7 @@
         "title": "20230610 160833",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4648785,
         "sizeFormatted": "4.43 MB"
     },
@@ -182,7 +182,7 @@
         "title": "20230610 160903",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4684984,
         "sizeFormatted": "4.47 MB"
     },
@@ -204,7 +204,7 @@
         "title": "20230612 190408",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4936848,
         "sizeFormatted": "4.71 MB"
     },
@@ -215,7 +215,7 @@
         "title": "20230623 140057",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 5219730,
         "sizeFormatted": "4.98 MB"
     },
@@ -336,7 +336,7 @@
         "title": "20240804 144414",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 3867011,
         "sizeFormatted": "3.69 MB"
     },
@@ -358,7 +358,7 @@
         "title": "20240804 201106",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4265087,
         "sizeFormatted": "4.07 MB"
     },
@@ -380,7 +380,7 @@
         "title": "20240823 131134",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 3655643,
         "sizeFormatted": "3.49 MB"
     },
@@ -413,7 +413,7 @@
         "title": "20250901 124425",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4113828,
         "sizeFormatted": "3.92 MB"
     },
@@ -435,7 +435,7 @@
         "title": "20250911 113613",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4304231,
         "sizeFormatted": "4.10 MB"
     },
@@ -479,7 +479,7 @@
         "title": "Copy of Children s playhouse",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 677148,
         "sizeFormatted": "661.28 KB"
     },
@@ -490,7 +490,7 @@
         "title": "Copy of Jo's shed building project",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 578103,
         "sizeFormatted": "564.55 KB"
     },
@@ -501,7 +501,7 @@
         "title": "Copy of Jo s shed building project",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 578103,
         "sizeFormatted": "564.55 KB"
     },
@@ -512,7 +512,7 @@
         "title": "Copy of JUNE 2ND PICTURES 013",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4062627,
         "sizeFormatted": "3.87 MB"
     },
@@ -523,7 +523,7 @@
         "title": "Copy of JUNE 2ND PICTURES 027",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 3203484,
         "sizeFormatted": "3.06 MB"
     },
@@ -534,7 +534,7 @@
         "title": "DS sink install",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 10883370,
         "sizeFormatted": "10.38 MB"
     },
@@ -545,7 +545,7 @@
         "title": "Ernest shed building",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 835075,
         "sizeFormatted": "815.50 KB"
     },
@@ -556,7 +556,7 @@
         "title": "JUNE 2ND PICTURES 012",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4178431,
         "sizeFormatted": "3.98 MB"
     },
@@ -567,7 +567,7 @@
         "title": "JUNE 2ND PICTURES 015",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 4083452,
         "sizeFormatted": "3.89 MB"
     },
@@ -578,7 +578,7 @@
         "title": "JUNE 2ND PICTURES 021",
         "category": "other",
         "desc": "",
-        "active": false,
+        "active": true,
         "sizeBytes": 3037777,
         "sizeFormatted": "2.90 MB"
     },
