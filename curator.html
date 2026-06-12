@@ -720,10 +720,12 @@
                 </div>
             </div>
 
-            <div class="fallback-alert" id="cors-warning" style="display: none;">
-                <i data-lucide="alert-triangle"></i>
+            <div class="fallback-alert" id="cors-warning" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171;">
+                <i data-lucide="alert-triangle" style="color: #ef4444;"></i>
                 <div>
-                    <strong>Local File Mode:</strong> You are accessing this page directly as a local file. To make microphone permissions stable and permanent, run the local web server by executing `powershell -ExecutionPolicy Bypass -File start-server.ps1` in your terminal, then visit <strong><a href="http://localhost:8000/curator.html" style="text-decoration: underline; color: inherit;">http://localhost:8000/curator.html</a></strong>.
+                    <strong>Local File Mode:</strong> You are accessing this page directly as a local file. Chrome and other browsers <strong>cannot save microphone permissions</strong> on <code>file://</code> pages, meaning you will be prompted on every single click. 
+                    <br><br>
+                    <strong>How to fix:</strong> Close this browser tab, then double-click the <strong><code>Launch Curation Tool.bat</code></strong> file in your project folder. This starts a secure local web server in the background and opens the dashboard at <a href="http://localhost:8000/curator.html" style="text-decoration: underline; color: #fff; font-weight: 600;">http://localhost:8000/curator.html</a>, where microphone permissions will be saved permanently.
                 </div>
             </div>
 
@@ -777,12 +779,30 @@
                     <div class="form-group">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                             <label for="edit-desc" style="margin-bottom: 0;">Description / Context</label>
-                            <button type="button" id="mic-btn" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; gap: 4px; height: auto; display: none;" title="Dictate Description">
-                                <i data-lucide="mic" style="width: 12px; height: 12px;"></i>
-                                <span id="mic-status">Dictate</span>
-                            </button>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <button type="button" id="mic-btn" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; gap: 4px; height: auto; display: none;" title="Dictate Description">
+                                    <i data-lucide="mic" style="width: 12px; height: 12px;"></i>
+                                    <span id="mic-status">Dictate</span>
+                                </button>
+                                <button type="button" id="mic-help-btn" class="btn btn-outline" style="padding: 4px; font-size: 0.75rem; border-radius: 4px; height: auto; display: none; color: var(--clr-text-light-sub); align-items: center; justify-content: center;" title="Microphone Help & Troubleshooting">
+                                    <i data-lucide="help-circle" style="width: 12px; height: 12px;"></i>
+                                </button>
+                            </div>
                         </div>
                         <textarea id="edit-desc" rows="4" placeholder="Describe what work was done..."></textarea>
+                        
+                        <div id="mic-troubleshoot-panel" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-dark); border-radius: 6px; padding: 12px; margin-top: 8px; font-size: 0.75rem; line-height: 1.5; color: var(--clr-text-light-sub);">
+                            <h4 style="margin-top: 0; margin-bottom: 6px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; color: var(--clr-primary);">
+                                <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i>
+                                Microphone Permission Settings
+                            </h4>
+                            <p style="margin: 4px 0;">To make Chrome/Edge remember your microphone preference permanently, ensure:</p>
+                            <ul style="margin: 6px 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+                                <li>You launched using <strong><code>Launch Curation Tool.bat</code></strong> (not double-clicking the html file directly).</li>
+                                <li>The browser address bar shows <strong><code>http://localhost:8000/curator.html</code></strong>.</li>
+                                <li><strong>Allow microphone access:</strong> Click the settings controls icon (or padlock) immediately to the left of the URL in the address bar, find <strong>Microphone</strong>, and change it from <em>Ask</em> to <strong>Allow</strong>.</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <label class="form-row-checkbox">
@@ -1147,12 +1167,14 @@
 
             // Speech-to-Text Dictation Setup
             const micBtn = document.getElementById('mic-btn');
+            const micHelpBtn = document.getElementById('mic-help-btn');
             const micStatus = document.getElementById('mic-status');
             const editDesc = document.getElementById('edit-desc');
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
             if (SpeechRecognition && micBtn) {
                 micBtn.style.display = 'inline-flex';
+                if (micHelpBtn) micHelpBtn.style.display = 'inline-flex';
 
                 let recognition = new SpeechRecognition();
                 recognition.continuous = true;
@@ -1173,6 +1195,9 @@
                 recognition.onerror = (e) => {
                     console.error("Speech recognition error:", e);
                     stopRecording();
+                    // Auto-show the help panel if it failed (e.g. permission issue)
+                    const panel = document.getElementById('mic-troubleshoot-panel');
+                    if (panel) panel.style.display = 'block';
                 };
 
                 recognition.onend = () => {
@@ -1215,6 +1240,16 @@
                         recognition.stop();
                     }
                 });
+
+                if (micHelpBtn) {
+                    micHelpBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const panel = document.getElementById('mic-troubleshoot-panel');
+                        if (panel) {
+                            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                        }
+                    });
+                }
             }
         }
 
