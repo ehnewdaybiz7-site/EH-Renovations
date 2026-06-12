@@ -1,7 +1,7 @@
 @echo off
 title EH Renovations - GitHub Sync
 echo ===================================================
-echo     EH Renovations Website & Gallery Auto-Sync
+echo     EH Renovations Website ^& Gallery Auto-Sync
 echo ===================================================
 echo.
 
