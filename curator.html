@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EH Renovations — Image Curation Tool</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --clr-primary: hsl(35, 80%, 48%);
+            --clr-primary-hover: hsl(35, 85%, 40%);
+            --clr-primary-light: hsl(35, 80%, 96%);
+            
+            --clr-bg-dark: hsl(215, 28%, 10%);
+            --clr-bg-dark-med: hsl(215, 24%, 15%);
+            --clr-bg-dark-light: hsl(215, 20%, 20%);
+            --clr-text-light: hsl(210, 20%, 98%);
+            --clr-text-light-sub: hsl(215, 16%, 75%);
+            
+            --border-dark: rgba(255, 255, 255, 0.08);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.3);
+            
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--clr-bg-dark);
+            color: var(--clr-text-light);
+            line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--clr-bg-dark-med);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--clr-text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--clr-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--clr-primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--clr-primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--clr-text-light-sub);
+            border: 1px solid var(--border-dark);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .dashboard {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            width: 280px;
+            background-color: var(--clr-bg-dark-med);
+            border-right: 1px solid var(--border-dark);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        .sidebar-section h3 {
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            color: var(--clr-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--clr-text-light-sub);
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-item:hover, .filter-item.active {
+            background-color: var(--clr-bg-dark-light);
+            color: white;
+        }
+
+        .filter-item.active {
+            border-left: 3px solid var(--clr-primary);
+            border-radius: 0 6px 6px 0;
+            padding-left: 9px;
+        }
+
+        .badge {
+            background-color: var(--clr-bg-dark-med);
+            border: 1px solid var(--border-dark);
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            border-radius: 10px;
+            color: var(--clr-text-light-sub);
+        }
+
+        .filter-item.active .badge {
+            background-color: var(--clr-primary);
+            color: white;
+            border-color: var(--clr-primary);
+        }
+
+        /* Main Workspace Grid */
+        .main-workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: var(--clr-bg-dark);
+        }
+
+        .workspace-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(30, 41, 59, 0.3);
+        }
+
+        .search-box {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background-color: var(--clr-bg-dark-light);
+            border: 1px solid var(--border-dark);
+            padding: 8px 12px 8px 36px;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .search-box input:focus {
+            border-color: var(--clr-primary);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--clr-text-light-sub);
+            pointer-events: none;
+            width: 16px;
+            height: 16px;
+        }
+
+        .stats-summary {
+            font-size: 0.9rem;
+            color: var(--clr-text-light-sub);
+        }
+
+        .stats-summary strong {
+            color: white;
+        }
+
+        .image-grid-container {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--clr-bg-dark-med);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(217, 119, 6, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.selected {
+            border-color: var(--clr-primary);
+            box-shadow: 0 0 0 2px var(--clr-primary);
+        }
+
+        .img-wrapper {
+            height: 150px;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .card:hover .img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .card-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-filename {
+            font-size: 0.75rem;
+            color: var(--clr-text-light-sub);
+            word-break: break-all;
+        }
+
+        .card-meta {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--clr-text-light-sub);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ef4444; /* Unlabelled */
+        }
+
+        .status-dot.labelled {
+            background-color: #10b981; /* Labelled */
+        }
+
+        .size-badge {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+
+        .size-badge.warning {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+
+        .featured-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--clr-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        /* Details Editor Sidebar (slide in or fixed) */
+        .editor-panel {
+            width: 380px;
+            background-color: var(--clr-bg-dark-med);
+            border-left: 1px solid var(--border-dark);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: var(--transition-smooth);
+        }
+
+        .editor-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 40px;
+            text-align: center;
+            color: var(--clr-text-light-sub);
+        }
+
+        .editor-empty i {
+            margin-bottom: 16px;
+            width: 48px;
+            height: 48px;
+            color: var(--clr-primary);
+            opacity: 0.5;
+        }
+
+        .editor-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-dark);
+            padding-bottom: 16px;
+        }
+
+        .editor-header h2 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .preview-img-box {
+            width: 100%;
+            height: 200px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-dark);
+            position: relative;
+        }
+
+        .preview-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--clr-text-light-sub);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            background-color: var(--clr-bg-dark-light);
+            border: 1px solid var(--border-dark);
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--clr-primary);
+        }
+
+        .form-row-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px 0;
+        }
+
+        .form-row-checkbox input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--clr-primary);
+        }
+
+        .custom-category-box {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .editor-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .editor-actions button {
+            flex: 1;
+        }
+
+        /* Setup Modal / Fallback info */
+        .fallback-alert {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            color: #f59e0b;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        .fallback-alert i {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        .file-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.9);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .upload-card {
+            background-color: var(--clr-bg-dark-med);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .upload-card i {
+            width: 64px;
+            height: 64px;
+            color: var(--clr-primary);
+        }
+
+        .upload-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+        }
+
+        .upload-card p {
+            font-size: 0.9rem;
+            color: var(--clr-text-light-sub);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .mic-recording {
+            background-color: rgba(239, 68, 68, 0.2) !important;
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }
+        .mic-recording i {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i data-lucide="wrench"></i>
+            <span>EH</span> Renovations Curation Tool
+        </div>
+        <div class="header-actions">
+            <div class="file-input-wrapper">
+                <button class="btn btn-outline">
+                    <i data-lucide="upload"></i> Import portfolio-data.json
+                </button>
+                <input type="file" id="import-json" accept=".json">
+            </div>
+            <button class="btn btn-primary" id="export-json">
+                <i data-lucide="download"></i> Export portfolio-data.json
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard">
+        <!-- Local file drag/drop fallback screen if scanned-images.json fetch fails -->
+        <div class="file-upload-overlay" id="upload-overlay" style="display: none;">
+            <div class="upload-card">
+                <i data-lucide="file-json"></i>
+                <h2>Load Image List</h2>
+                <p>Since the curation tool is running as a local file, it cannot read the directory structure directly. Please select the <strong>scanned-images.json</strong> file generated by the PowerShell script to load the images.</p>
+                <div class="file-input-wrapper">
+                    <button class="btn btn-primary btn-lg">
+                        Select scanned-images.json
+                    </button>
+                    <input type="file" id="scanned-images-upload" accept=".json">
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Filters -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Directory Filter</h3>
+                <div class="filter-list">
+                    <div class="filter-item active" data-filter-type="folder" data-filter-val="all">
+                        <span>All Folders</span>
+                        <span class="badge" id="badge-folder-all">0</span>
+                    </div>
+                    <div class="filter-item" data-filter-type="folder" data-filter-val="core">
+                        <span>Core Booklet</span>
+                        <span class="badge" id="badge-folder-core">0</span>
+                    </div>
+                    <div class="filter-item" data-filter-type="folder" data-filter-val="latest">
+                        <span>Latest Images</span>
+                        <span class="badge" id="badge-folder-latest">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Curation Status</h3>
+                <div class="filter-list">
+                    <div class="filter-item" data-filter-type="status" data-filter-val="all">
+                        <span>All Images</span>
+                    </div>
+                    <div class="filter-item" data-filter-type="status" data-filter-val="labelled">
+                        <span>Curated / Active</span>
+                        <span class="badge" id="badge-status-curated">0</span>
+                    </div>
+                    <div class="filter-item" data-filter-type="status" data-filter-val="unlabelled">
+                        <span>Uncurated / Draft</span>
+                        <span class="badge" id="badge-status-uncurated">0</span>
+                    </div>
+                    <div class="filter-item" data-filter-type="status" data-filter-val="warning">
+                        <span>Oversized (> 1MB)</span>
+                        <span class="badge" id="badge-status-warning" style="color: #f59e0b;">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Categories</h3>
+                <div class="filter-list" id="category-filter-list">
+                    <div class="filter-item" data-filter-type="category" data-filter-val="all">
+                        <span>All Categories</span>
+                    </div>
+                    <!-- Categories will be rendered dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid View -->
+        <div class="main-workspace">
+            <div class="workspace-header">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="search-input" placeholder="Search by name, title, description...">
+                </div>
+                <div class="stats-summary" id="stats-summary">
+                    Showing <strong>0</strong> of <strong>0</strong> images (<span id="curation-progress">0%</span> curated)
+                </div>
+            </div>
+
+            <div class="fallback-alert" id="cors-warning" style="display: none;">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <strong>Local File Mode:</strong> You are accessing this page directly as a local file. To make microphone permissions stable and permanent, run the local web server by executing `powershell -ExecutionPolicy Bypass -File start-server.ps1` in your terminal, then visit <strong><a href="http://localhost:8000/curator.html" style="text-decoration: underline; color: inherit;">http://localhost:8000/curator.html</a></strong>.
+                </div>
+            </div>
+
+            <div class="image-grid-container">
+                <div class="grid" id="image-grid">
+                    <!-- Cards will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Editor Panel -->
+        <div class="editor-panel">
+            <div class="editor-empty" id="editor-empty">
+                <i data-lucide="image"></i>
+                <h3>Select an Image</h3>
+                <p>Click on any image card in the gallery to view and edit its metadata.</p>
+            </div>
+
+            <div class="editor-content" id="editor-content" style="display: none;">
+                <div class="editor-header">
+                    <h2 id="editor-image-title">Curation Editor</h2>
+                    <span class="badge" id="editor-folder-badge">core</span>
+                </div>
+
+                <div class="preview-img-box">
+                    <img id="editor-img-preview" src="" alt="Selected Image">
+                </div>
+
+                <form id="editor-form">
+                    <div class="form-group">
+                        <label for="edit-title">Image Title</label>
+                        <input type="text" id="edit-title" required placeholder="e.g. Modern Granite Kitchen">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-category">Category / Group</label>
+                        <select id="edit-category">
+                            <option value="kitchen">Kitchens</option>
+                            <option value="bathroom">Bathrooms</option>
+                            <option value="exterior">Decks & Exteriors</option>
+                            <option value="interior">Interiors & Carpentry</option>
+                            <option value="custom">-- Custom Group --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group custom-category-box" id="custom-category-box">
+                        <label for="edit-custom-category">Custom Group Name</label>
+                        <input type="text" id="edit-custom-category" placeholder="e.g. Shed Building">
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <label for="edit-desc" style="margin-bottom: 0;">Description / Context</label>
+                            <button type="button" id="mic-btn" class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; gap: 4px; height: auto; display: none;" title="Dictate Description">
+                                <i data-lucide="mic" style="width: 12px; height: 12px;"></i>
+                                <span id="mic-status">Dictate</span>
+                            </button>
+                        </div>
+                        <textarea id="edit-desc" rows="4" placeholder="Describe what work was done..."></textarea>
+                    </div>
+
+                    <label class="form-row-checkbox">
+                        <input type="checkbox" id="edit-active">
+                        <span>Include in website gallery</span>
+                    </label>
+
+                    <div class="editor-actions">
+                        <button type="submit" class="btn btn-primary" id="save-btn">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <i data-lucide="check"></i>
+        <span id="toast-message">Changes saved!</span>
+    </div>
+
+    <!-- Preset fallback mappings (extracted from index.html) -->
+    <script>
+        const INITIAL_SEED_METADATA = {
+            "Renovation Booklet/20150721_143600.jpg": {
+                title: "White Cabinetry Remodel",
+                category: "kitchen",
+                desc: "White kitchen cabinets, beige countertops, stainless steel sink, and wood flooring",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180115_021823.jpg": {
+                title: "Disposal & Under-Sink Plumbing",
+                category: "kitchen",
+                desc: "Under-sink plumbing of a kitchen sink with garbage disposal unit installed",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180118_150048.jpg": {
+                title: "Modern Granite Kitchen",
+                category: "kitchen",
+                desc: "Modern kitchen with white cabinets, dark granite countertops, stainless steel sink, and dishwasher",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180726_080143.jpg": {
+                title: "Breakfast Bar & Utility Layout",
+                category: "kitchen",
+                desc: "Older kitchen layout with raised white breakfast bar, double sink, and white refrigerator",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180825_092343.jpg": {
+                title: "Custom Cabinetry & Range Install",
+                category: "kitchen",
+                desc: "Kitchen with stainless steel double oven gas range, wood cabinets, and reddish countertops",
+                active: true
+            },
+            "Renovation Booklet/20200108_163619_HDR.jpg": {
+                title: "Subfloor Demolition",
+                category: "bathroom",
+                desc: "Demolition of a concrete floor using a jackhammer inside framed walls",
+                active: true
+            },
+            "Renovation Booklet/20200129_235245_HDR.jpg": {
+                title: "Bathroom Framing & Fixtures",
+                category: "bathroom",
+                desc: "Under-construction bathroom with wooden framing, pedestal sink, and toilet installed",
+                active: true
+            },
+            "Renovation Booklet/20200205_174013_HDR.jpg": {
+                title: "Sub-Floor Plumbing Installation",
+                category: "bathroom",
+                desc: "Sub-floor black PVC drainage plumbing layout under concrete slab",
+                active: true
+            },
+            "Renovation Booklet/20200205_174107_HDR.jpg": {
+                title: "PVC Drainage Routing",
+                category: "bathroom",
+                desc: "Trench in concrete floor with newly installed black PVC drain pipes and tools",
+                active: true
+            },
+            "Renovation Booklet/20200205_214848_HDR.jpg": {
+                title: "Custom Shower Framing",
+                category: "bathroom",
+                desc: "Framed shower stall base and plywood walls under construction",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180115_021640.jpg": {
+                title: "Bathroom P-Trap Setup",
+                category: "bathroom",
+                desc: "Under-sink plumbing showing P-trap and supply lines for a bathroom sink",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180118_150103.jpg": {
+                title: "Water Heater Setup",
+                category: "bathroom",
+                desc: "Hot water heater tank with copper pipe connections and safety straps in closet",
+                active: true
+            },
+            "Renovation Booklet/20150729_145912.jpg": {
+                title: "Roof Vent Installation",
+                category: "exterior",
+                desc: "Black roof vent installed on a grey shingled roof",
+                active: true
+            },
+            "Renovation Booklet/20150916_162540.jpg": {
+                title: "Exterior Painting & Trim",
+                category: "exterior",
+                desc: "Front exterior view of a single-story grey house with blue trim, yard, and motorcycle safety sign",
+                active: true
+            },
+            "Renovation Booklet/20150916_162721.jpg": {
+                title: "Siding & Wall Panel Trim",
+                category: "exterior",
+                desc: "Side exterior view of a two-story house with white siding and a grassy yard",
+                active: true
+            },
+            "Renovation Booklet/20150922_190424.jpg": {
+                title: "Porch Refinishing",
+                category: "exterior",
+                desc: "Front lawn and porch of grey house with motorcycle safety sign",
+                active: true
+            },
+            "Renovation Booklet/20150922_190434.jpg": {
+                title: "Garage Painting & Trim",
+                category: "exterior",
+                desc: "Teal garage door and driveway of grey house with motorcycle safety sign",
+                active: true
+            },
+            "Renovation Booklet/20150930_125536.jpg": {
+                title: "Full House Painting & Refurbish",
+                category: "exterior",
+                desc: "Full side-front view of grey house on grassy hill with teal garage door and window frames",
+                active: true
+            },
+            "Renovation Booklet/20151016_121330(0).jpg": {
+                title: "Custom Shed Paint & Finish",
+                category: "exterior",
+                desc: "Pink painted garden shed with white double doors next to wooden deck stairs",
+                active: true
+            },
+            "Renovation Booklet/20191210_174008_HDR.jpg": {
+                title: "Roof Seaming & Sheathing",
+                category: "exterior",
+                desc: "Plywood roof sheathing installation with black seam sealant tape and paint can",
+                active: true
+            },
+            "Renovation Booklet/20191210_174038_HDR.jpg": {
+                title: "Roof Framing Progress",
+                category: "exterior",
+                desc: "Under-construction plywood roof sheathing on a building structure",
+                active: true
+            },
+            "Renovation Booklet/20191210_174214_HDR.jpg": {
+                title: "Ridge Seam Waterproofing",
+                category: "exterior",
+                desc: "Close-up of sealed roof ridge seam on plywood decking",
+                active: true
+            },
+            "Renovation Booklet/20191219_123147_HDR.jpg": {
+                title: "Roof-Level View",
+                category: "exterior",
+                desc: "Roof-level view of a hilly residential neighborhood with blue sky and clouds",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180228_152320.jpg": {
+                title: "Deck Joist Foundation Layout",
+                category: "exterior",
+                desc: "Backyard deck framing preparation on the dirt ground next to a house wall",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180305_151934.jpg": {
+                title: "Deck Post Anchor Installation",
+                category: "exterior",
+                desc: "Vertical wooden deck support posts installed in backyard dirt ground",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180311_141056.jpg": {
+                title: "Completed Custom Backyard Deck",
+                category: "exterior",
+                desc: "Completed wooden backyard deck with wooden railings and lattice skirt",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180311_141112.jpg": {
+                title: "Deck Board Alignment",
+                category: "exterior",
+                desc: "High-angle view of newly constructed wooden deck floor and railing",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180311_141203.jpg": {
+                title: "Deck Skirting & Rails",
+                category: "exterior",
+                desc: "Side view of wooden deck showing railing and lattice skirting",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180504_170828.jpg": {
+                title: "Garden Shed Siding Install",
+                category: "exterior",
+                desc: "Garden shed under construction with beige siding and window installed",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180504_170854.jpg": {
+                title: "Shed Roof Sheathing",
+                category: "exterior",
+                desc: "Worker installing plywood roof sheathing inside a framed garden shed",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180504_173628.jpg": {
+                title: "Shed Structural Framing",
+                category: "exterior",
+                desc: "Side view of unfinished garden shed with window frame and door opening",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180504_184659.jpg": {
+                title: "Shed Stud Framing Setup",
+                category: "exterior",
+                desc: "Worker standing inside the wooden frame of a garden shed under construction",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180118_150345.jpg": {
+                title: "Interior Flooring & Walls",
+                category: "interior",
+                desc: "Renovated interior space with new flooring, fresh wall finish, and clean trim carpentry",
+                active: true
+            },
+            "Renovation Booklet/IMG_20180311_141131.jpg": {
+                title: "Custom Stairs & Handrails",
+                category: "interior",
+                desc: "Wooden deck stairs with handrails leading down to a concrete yard landing",
+                active: true
+            }
+        };
+    </script>
+
+    <!-- Core Logic -->
+    <script>
+        let allImages = [];       // Loaded from scanned-images.json
+        let metadataMap = {};     // Map of imagePath -> metadata object { title, category, desc, active }
+        let selectedPath = null;  // Currently open image path
+        let activeFilters = {
+            folder: 'all',
+            status: 'all',
+            category: 'all'
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Check if opened locally via file://
+            if (window.location.protocol === 'file:') {
+                document.getElementById('cors-warning').style.display = 'flex';
+            }
+
+            // Bind Event Listeners
+            setupEventListeners();
+
+            // Load Curation database
+            loadFromLocalStorage();
+
+            // Try to load scanned images list
+            fetchImageDatabase();
+        });
+
+        function setupEventListeners() {
+            // Category custom visibility
+            document.getElementById('edit-category').addEventListener('change', (e) => {
+                const customBox = document.getElementById('custom-category-box');
+                if (e.target.value === 'custom') {
+                    customBox.style.display = 'flex';
+                    document.getElementById('edit-custom-category').required = true;
+                } else {
+                    customBox.style.display = 'none';
+                    document.getElementById('edit-custom-category').required = false;
+                }
+            });
+
+            // Form Submit (Save Curation Info)
+            document.getElementById('editor-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                saveCurrentCuration();
+            });
+
+            // Sidebar Filter Clicks
+            document.querySelectorAll('.filter-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const filterType = item.getAttribute('data-filter-type');
+                    const filterVal = item.getAttribute('data-filter-val');
+                    
+                    // Clear sibling active classes
+                    item.parentElement.querySelectorAll('.filter-item').forEach(el => el.classList.remove('active'));
+                    item.classList.add('active');
+
+                    activeFilters[filterType] = filterVal;
+                    renderGrid();
+                });
+            });
+
+            // Search Bar Input
+            document.getElementById('search-input').addEventListener('input', () => {
+                renderGrid();
+            });
+
+            // Scanned Images Manual Upload
+            document.getElementById('scanned-images-upload').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        allImages = JSON.parse(evt.target.result);
+                        document.getElementById('upload-overlay').style.display = 'none';
+                        showToast("Manual JSON loaded!");
+                        renderGrid();
+                        updateSidebarBadges();
+                    } catch(err) {
+                        alert("Invalid JSON: " + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // Import existing portfolio-data.json
+            document.getElementById('import-json').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const importedData = JSON.parse(evt.target.result);
+                        if (Array.isArray(importedData)) {
+                            // Convert array back to map
+                            importedData.forEach(item => {
+                                metadataMap[item.path] = {
+                                    title: item.title || '',
+                                    category: item.category || 'other',
+                                    desc: item.desc || '',
+                                    active: item.active !== false
+                                };
+                            });
+                            saveToLocalStorage();
+                            showToast("Configuration Imported!");
+                            renderGrid();
+                            updateSidebarBadges();
+                            if (selectedPath) {
+                                selectCard(selectedPath);
+                            }
+                        } else {
+                            alert("Expected a JSON array of objects!");
+                        }
+                    } catch(err) {
+                        alert("Error parsing JSON: " + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // Export updated portfolio-data.json
+            document.getElementById('export-json').addEventListener('click', () => {
+                exportDataFile();
+            });
+
+            // Speech-to-Text Dictation Setup
+            const micBtn = document.getElementById('mic-btn');
+            const micStatus = document.getElementById('mic-status');
+            const editDesc = document.getElementById('edit-desc');
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (SpeechRecognition && micBtn) {
+                micBtn.style.display = 'inline-flex';
+
+                let recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                let isRecording = false;
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    micBtn.classList.add('mic-recording');
+                    const icon = micBtn.querySelector('i');
+                    if (icon) icon.setAttribute('data-lucide', 'mic-off');
+                    micStatus.textContent = 'Listening...';
+                    if (window.lucide) window.lucide.createIcons();
+                };
+
+                recognition.onerror = (e) => {
+                    console.error("Speech recognition error:", e);
+                    stopRecording();
+                };
+
+                recognition.onend = () => {
+                    stopRecording();
+                };
+
+                recognition.onresult = (event) => {
+                    let newText = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            newText += event.results[i][0].transcript;
+                        }
+                    }
+                    if (newText) {
+                        const currentVal = editDesc.value.trim();
+                        editDesc.value = currentVal ? `${currentVal} ${newText.trim()}` : newText.trim();
+                        editDesc.dispatchEvent(new Event('input'));
+                        showToast("Voice text inserted!");
+                    }
+                };
+
+                function stopRecording() {
+                    isRecording = false;
+                    micBtn.classList.remove('mic-recording');
+                    const icon = micBtn.querySelector('i');
+                    if (icon) icon.setAttribute('data-lucide', 'mic');
+                    micStatus.textContent = 'Dictate';
+                    if (window.lucide) window.lucide.createIcons();
+                }
+
+                micBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!isRecording) {
+                        try {
+                            recognition.start();
+                        } catch(err) {
+                            console.error("Failed to start speech recognition:", err);
+                        }
+                    } else {
+                        recognition.stop();
+                    }
+                });
+            }
+        }
+
+        // Try to fetch scanned-images.json from local HTTP server
+        function fetchImageDatabase() {
+            fetch('scanned-images.json')
+                .then(res => {
+                    if (!res.ok) throw new Error("File not found");
+                    return res.json();
+                })
+                .then(data => {
+                    allImages = data;
+                    renderGrid();
+                    updateSidebarBadges();
+                })
+                .catch(err => {
+                    // Show manual file upload screen
+                    console.log("CORS/Fetch failed. Showing manual upload fallback screen.", err);
+                    document.getElementById('upload-overlay').style.display = 'flex';
+                });
+
+            // Try to load any existing portfolio-data.json too
+            fetch('portfolio-data.json')
+                .then(res => {
+                    if (res.ok) return res.json();
+                })
+                .then(data => {
+                    if (data && Array.isArray(data)) {
+                        data.forEach(item => {
+                            // Saved portfolio-data.json has precedence on load
+                            metadataMap[item.path] = {
+                                title: item.title || '',
+                                category: item.category || 'other',
+                                desc: item.desc || '',
+                                active: item.active !== false
+                            };
+                        });
+                        saveToLocalStorage();
+                        updateSidebarBadges();
+                        renderGrid();
+                        if (selectedPath) {
+                            selectCard(selectedPath);
+                        }
+                    }
+                })
+                .catch(() => {});
+        }
+
+        // Local Storage sync
+        function loadFromLocalStorage() {
+            const stored = localStorage.getItem('eh_curation_metadata');
+            if (stored) {
+                try {
+                    metadataMap = JSON.parse(stored);
+                } catch(e) {
+                    console.error("Local storage corruption", e);
+                    metadataMap = {};
+                }
+            } else {
+                // Seed database with pre-existing index.html details
+                metadataMap = { ...INITIAL_SEED_METADATA };
+                saveToLocalStorage();
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('eh_curation_metadata', JSON.stringify(metadataMap));
+        }
+
+        // Curation Logic
+        function selectCard(path) {
+            selectedPath = path;
+            
+            // Mark grid card as selected
+            document.querySelectorAll('.card').forEach(c => {
+                if (c.getAttribute('data-path') === path) {
+                    c.classList.add('selected');
+                } else {
+                    c.classList.remove('selected');
+                }
+            });
+
+            const file = allImages.find(img => img.path === path);
+            if (!file) return;
+
+            // Fill editor panel
+            document.getElementById('editor-empty').style.display = 'none';
+            document.getElementById('editor-content').style.display = 'flex';
+            
+            document.getElementById('editor-image-title').textContent = file.filename;
+            document.getElementById('editor-folder-badge').textContent = file.folder.toUpperCase();
+            document.getElementById('editor-img-preview').src = file.path;
+
+            // Load existing curation data or fill defaults
+            const meta = metadataMap[path] || {
+                title: file.filename.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " "),
+                category: 'kitchen',
+                desc: '',
+                active: true
+            };
+
+            document.getElementById('edit-title').value = meta.title;
+            document.getElementById('edit-desc').value = meta.desc;
+            document.getElementById('edit-active').checked = meta.active !== false;
+
+            const categorySelect = document.getElementById('edit-category');
+            const customBox = document.getElementById('custom-category-box');
+            
+            // Set category
+            const standardCategories = ['kitchen', 'bathroom', 'exterior', 'interior'];
+            if (standardCategories.includes(meta.category)) {
+                categorySelect.value = meta.category;
+                customBox.style.display = 'none';
+                document.getElementById('edit-custom-category').value = '';
+                document.getElementById('edit-custom-category').required = false;
+            } else {
+                categorySelect.value = 'custom';
+                customBox.style.display = 'flex';
+                document.getElementById('edit-custom-category').value = meta.category || '';
+                document.getElementById('edit-custom-category').required = true;
+            }
+        }
+
+        function saveCurrentCuration() {
+            if (!selectedPath) return;
+
+            const title = document.getElementById('edit-title').value.trim();
+            const desc = document.getElementById('edit-desc').value.trim();
+            const active = document.getElementById('edit-active').checked;
+            
+            let category = document.getElementById('edit-category').value;
+            if (category === 'custom') {
+                category = document.getElementById('edit-custom-category').value.trim().toLowerCase();
+            }
+
+            metadataMap[selectedPath] = {
+                title,
+                category,
+                desc,
+                active
+            };
+
+            saveToLocalStorage();
+            showToast("Saved to LocalStorage!");
+            
+            // Re-render
+            renderGrid();
+            updateSidebarBadges();
+            
+            // Keep card selected
+            selectCard(selectedPath);
+        }
+
+        // Render functions
+        function renderGrid() {
+            const grid = document.getElementById('image-grid');
+            grid.innerHTML = '';
+
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            let filtered = allImages;
+
+            // 1. Folder filter
+            if (activeFilters.folder !== 'all') {
+                filtered = filtered.filter(img => img.folder === activeFilters.folder);
+            }
+
+            // 2. Status filter
+            if (activeFilters.status === 'labelled') {
+                filtered = filtered.filter(img => metadataMap[img.path] && metadataMap[img.path].active);
+            } else if (activeFilters.status === 'unlabelled') {
+                filtered = filtered.filter(img => !metadataMap[img.path] || !metadataMap[img.path].active);
+            } else if (activeFilters.status === 'warning') {
+                filtered = filtered.filter(img => img.sizeBytes > 1024 * 1024); // > 1MB
+            }
+
+            // 3. Category filter
+            if (activeFilters.category !== 'all') {
+                filtered = filtered.filter(img => {
+                    const meta = metadataMap[img.path];
+                    return meta && meta.category === activeFilters.category;
+                });
+            }
+
+            // 4. Search query
+            if (searchQuery) {
+                filtered = filtered.filter(img => {
+                    const filenameMatch = img.filename.toLowerCase().includes(searchQuery);
+                    const meta = metadataMap[img.path];
+                    const titleMatch = meta && meta.title.toLowerCase().includes(searchQuery);
+                    const descMatch = meta && meta.desc.toLowerCase().includes(searchQuery);
+                    return filenameMatch || titleMatch || descMatch;
+                });
+            }
+
+            // Render cards
+            filtered.forEach(img => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                if (selectedPath === img.path) {
+                    card.classList.add('selected');
+                }
+                card.setAttribute('data-path', img.path);
+                
+                const meta = metadataMap[img.path];
+                const isLabelled = meta && meta.title && meta.category;
+                const isOversized = img.sizeBytes > 1024 * 1024; // > 1MB
+
+                let featuredBadge = '';
+                if (meta && meta.active) {
+                    featuredBadge = `<div class="featured-indicator">ACTIVE</div>`;
+                }
+
+                card.innerHTML = `
+                    ${featuredBadge}
+                    <div class="img-wrapper">
+                        <img src="${img.path}" loading="lazy" />
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">${meta ? meta.title : img.filename.replace(/\.[^/.]+$/, "")}</div>
+                        <div class="card-filename">${img.filename}</div>
+                        <div class="card-meta">
+                            <span class="size-badge ${isOversized ? 'warning' : ''}" title="${img.sizeBytes} bytes">
+                                ${img.sizeFormatted} ${isOversized ? '⚠️' : ''}
+                            </span>
+                            <span class="status-dot ${isLabelled ? 'labelled' : ''}" title="${isLabelled ? 'Curated' : 'Not Curated'}"></span>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => selectCard(img.path));
+                grid.appendChild(card);
+            });
+
+            // Update stats string
+            const totalCount = allImages.length;
+            const shownCount = filtered.length;
+            const curatedCount = allImages.filter(img => metadataMap[img.path] && metadataMap[img.path].active).length;
+            const progress = totalCount > 0 ? Math.round((curatedCount / totalCount) * 100) : 0;
+
+            document.getElementById('stats-summary').innerHTML = `
+                Showing <strong>${shownCount}</strong> of <strong>${totalCount}</strong> images (<strong>${curatedCount}</strong> active, <strong>${progress}%</strong> curated)
+            `;
+        }
+
+        function updateSidebarBadges() {
+            // Update Folder filter counts
+            document.getElementById('badge-folder-all').textContent = allImages.length;
+            document.getElementById('badge-folder-core').textContent = allImages.filter(img => img.folder === 'core').length;
+            document.getElementById('badge-folder-latest').textContent = allImages.filter(img => img.folder === 'latest').length;
+
+            // Update Status counts
+            const activeCount = allImages.filter(img => metadataMap[img.path] && metadataMap[img.path].active).length;
+            document.getElementById('badge-status-curated').textContent = activeCount;
+            document.getElementById('badge-status-uncurated').textContent = allImages.length - activeCount;
+            document.getElementById('badge-status-warning').textContent = allImages.filter(img => img.sizeBytes > 1024 * 1024).length;
+
+            // Build dynamic Category Filters
+            const categoryFilterList = document.getElementById('category-filter-list');
+            
+            // Keep the 'All' item
+            const allItem = categoryFilterList.querySelector('[data-filter-val="all"]');
+            categoryFilterList.innerHTML = '';
+            categoryFilterList.appendChild(allItem);
+
+            // Collect categories and counts
+            const categoryCounts = {};
+            allImages.forEach(img => {
+                const meta = metadataMap[img.path];
+                if (meta && meta.category) {
+                    categoryCounts[meta.category] = (categoryCounts[meta.category] || 0) + 1;
+                }
+            });
+
+            // Render category items
+            Object.keys(categoryCounts).sort().forEach(cat => {
+                const item = document.createElement('div');
+                item.className = 'filter-item';
+                if (activeFilters.category === cat) {
+                    item.classList.add('active');
+                }
+                item.setAttribute('data-filter-type', 'category');
+                item.setAttribute('data-filter-val', cat);
+                
+                const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
+
+                item.innerHTML = `
+                    <span>${catLabel}</span>
+                    <span class="badge">${categoryCounts[cat]}</span>
+                `;
+
+                item.addEventListener('click', () => {
+                    categoryFilterList.querySelectorAll('.filter-item').forEach(el => el.classList.remove('active'));
+                    item.classList.add('active');
+                    activeFilters.category = cat;
+                    renderGrid();
+                });
+
+                categoryFilterList.appendChild(item);
+            });
+        }
+
+        // Export Functionality
+        function exportDataFile() {
+            // Build the data array for active items
+            const exportArray = [];
+            
+            // We want to export details for all scanned files that have curation metadata
+            allImages.forEach(img => {
+                const meta = metadataMap[img.path];
+                if (meta) {
+                    exportArray.push({
+                        path: img.path,
+                        filename: img.filename,
+                        folder: img.folder,
+                        title: meta.title,
+                        category: meta.category,
+                        desc: meta.desc,
+                        active: meta.active,
+                        sizeBytes: img.sizeBytes,
+                        sizeFormatted: img.sizeFormatted
+                    });
+                } else {
+                    // Export inactive shell
+                    exportArray.push({
+                        path: img.path,
+                        filename: img.filename,
+                        folder: img.folder,
+                        title: img.filename.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " "),
+                        category: "other",
+                        desc: "",
+                        active: false,
+                        sizeBytes: img.sizeBytes,
+                        sizeFormatted: img.sizeFormatted
+                    });
+                }
+            });
+
+            const blob = new Blob([JSON.stringify(exportArray, null, 4)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'portfolio-data.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showToast("Exported portfolio-data.json!");
+        }
+
+        // Toast Helpers
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

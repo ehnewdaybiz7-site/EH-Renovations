@@ -70,43 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. Portfolio Filtering
+    // 2. Portfolio State
     // ==========================================
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
-    let activeItems = [...portfolioItems]; // Currently visible items in the gallery
-    
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active state from all buttons
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filterValue = btn.getAttribute('data-filter');
-            
-            portfolioItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                
-                // Reset animation classes
-                item.classList.remove('fade');
-                
-                if (filterValue === 'all' || category === filterValue) {
-                    item.classList.remove('hidden');
-                    // Force reflow to trigger animation
-                    void item.offsetWidth;
-                    item.classList.add('fade');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-            
-            // Update the active items list for lightbox navigation
-            activeItems = portfolioItems.filter(item => !item.classList.contains('hidden'));
-        });
-    });
+    let portfolioItems = [];
+    let activeItems = [];
+    let currentImageIndex = 0;
 
     // ==========================================
-    // 3. Portfolio Lightbox Modal
+    // 3. Lightbox Functions
     // ==========================================
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -115,12 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxClose = document.getElementById('lightbox-close');
     const lightboxPrev = document.getElementById('lightbox-prev');
     const lightboxNext = document.getElementById('lightbox-next');
-    
-    let currentImageIndex = 0;
-    
+
     // Open lightbox
     const openLightbox = (item) => {
-        // Find index of the clicked item in the currently active/filtered list
         currentImageIndex = activeItems.indexOf(item);
         if (currentImageIndex === -1) return;
         
@@ -154,45 +122,126 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navigate Lightbox
     const showPrevImage = (e) => {
         if (e) e.stopPropagation();
+        if (activeItems.length === 0) return;
         currentImageIndex = (currentImageIndex - 1 + activeItems.length) % activeItems.length;
         updateLightboxContent();
     };
     
     const showNextImage = (e) => {
         if (e) e.stopPropagation();
+        if (activeItems.length === 0) return;
         currentImageIndex = (currentImageIndex + 1) % activeItems.length;
         updateLightboxContent();
     };
-    
-    // Bind click handlers to portfolio item overlays
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', () => openLightbox(item));
-    });
-    
-    // Close & Arrow Handlers
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightboxPrev.addEventListener('click', showPrevImage);
-    lightboxNext.addEventListener('click', showNextImage);
-    
-    // Clicking outside the image wrapper closes the lightbox
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-    
-    // Keyboard Controls
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
+
+    // Bind static lightbox controls once
+    if (lightboxClose && lightboxPrev && lightboxNext) {
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', showPrevImage);
+        lightboxNext.addEventListener('click', showNextImage);
         
-        if (e.key === 'Escape') {
-            closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-            showPrevImage();
-        } else if (e.key === 'ArrowRight') {
-            showNextImage();
-        }
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                showPrevImage();
+            } else if (e.key === 'ArrowRight') {
+                showNextImage();
+            }
+        });
+    }
+
+    // Function to initialize logic on whichever portfolio items are present
+    const initPortfolio = () => {
+        portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
+        activeItems = [...portfolioItems];
+
+        // Bind click events for gallery item overlays
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', () => openLightbox(item));
+        });
+    };
+
+    // Bind static filter buttons once
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filterValue = btn.getAttribute('data-filter');
+            
+            portfolioItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                item.classList.remove('fade');
+                
+                if (filterValue === 'all' || category === filterValue) {
+                    item.classList.remove('hidden');
+                    void item.offsetWidth;
+                    item.classList.add('fade');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+            
+            activeItems = portfolioItems.filter(item => !item.classList.contains('hidden'));
+        });
     });
+
+    // Load dynamic items from portfolio-data.json
+    fetch('portfolio-data.json')
+        .then(res => {
+            if (!res.ok) throw new Error("Portfolio data not found");
+            return res.json();
+        })
+        .then(data => {
+            if (Array.isArray(data)) {
+                const galleryGrid = document.getElementById('portfolio-gallery-grid');
+                if (galleryGrid) {
+                    galleryGrid.innerHTML = ''; // Clear fallback HTML
+                    
+                    const activeItemsData = data.filter(item => item.active);
+                    activeItemsData.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'portfolio-item';
+                        itemDiv.setAttribute('data-category', item.category);
+                        itemDiv.setAttribute('data-desc', item.desc);
+                        
+                        const catLabel = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+                        
+                        itemDiv.innerHTML = `
+                            <img src="${item.path}" alt="${item.title}" loading="lazy">
+                            <div class="portfolio-item-overlay">
+                                <span class="item-category">${catLabel}</span>
+                                <h4 class="item-title">${item.title}</h4>
+                                <div class="item-icon"><i data-lucide="zoom-in"></i></div>
+                            </div>
+                        `;
+                        galleryGrid.appendChild(itemDiv);
+                    });
+                    
+                    // Re-render lucide icons
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                }
+            }
+            // Initialize portfolio functionality on the dynamically loaded items
+            initPortfolio();
+        })
+        .catch(err => {
+            console.log("Using index.html fallback for gallery:", err.message);
+            // Initialize portfolio functionality on the fallback/hardcoded HTML elements
+            initPortfolio();
+        });
 
     // ==========================================
     // 4. Contact Form Interaction
