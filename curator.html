@@ -368,6 +368,11 @@
             z-index: 2;
         }
 
+        .featured-indicator.hero-badge {
+            background: linear-gradient(135deg, hsl(45, 100%, 50%), hsl(35, 100%, 45%));
+            color: hsl(215, 28%, 10%);
+        }
+
         /* Details Editor Sidebar (slide in or fixed) */
         .editor-panel {
             width: 380px;
@@ -633,6 +638,9 @@
                 </button>
                 <input type="file" id="import-json" accept=".json">
             </div>
+            <button class="btn btn-primary" id="save-disk-btn" style="background-color: #10b981; display: none;">
+                <i data-lucide="save"></i> Save to Disk
+            </button>
             <button class="btn btn-primary" id="export-json">
                 <i data-lucide="download"></i> Export portfolio-data.json
             </button>
@@ -810,6 +818,11 @@
                         <span>Include in website gallery</span>
                     </label>
 
+                    <label class="form-row-checkbox" style="margin-top: 8px;">
+                        <input type="checkbox" id="edit-hero">
+                        <span>Use as homepage Hero photo background</span>
+                    </label>
+
                     <div class="editor-actions">
                         <button type="submit" class="btn btn-primary" id="save-btn">
                             Save Changes
@@ -965,7 +978,8 @@
                 title: "Roof-Level View",
                 category: "exterior",
                 desc: "Roof-level view of a hilly residential neighborhood with blue sky and clouds",
-                active: true
+                active: true,
+                isHero: true
             },
             "Renovation Booklet/IMG_20180228_152320.jpg": {
                 title: "Deck Joist Foundation Layout",
@@ -1055,6 +1069,14 @@
                 document.getElementById('cors-warning').style.display = 'flex';
             }
 
+            // Show save to disk button if running on localhost
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const saveDiskBtn = document.getElementById('save-disk-btn');
+                if (saveDiskBtn) {
+                    saveDiskBtn.style.display = 'inline-flex';
+                }
+            }
+
             // Bind Event Listeners
             setupEventListeners();
 
@@ -1140,7 +1162,8 @@
                                     title: item.title || '',
                                     category: item.category || 'other',
                                     desc: item.desc || '',
-                                    active: item.active !== false
+                                    active: item.active !== false,
+                                    isHero: !!item.isHero
                                 };
                             });
                             saveToLocalStorage();
@@ -1163,6 +1186,11 @@
             // Export updated portfolio-data.json
             document.getElementById('export-json').addEventListener('click', () => {
                 exportDataFile();
+            });
+
+            // Save directly to disk (local server mode only)
+            document.getElementById('save-disk-btn').addEventListener('click', () => {
+                saveToDisk();
             });
 
             // Speech-to-Text Dictation Setup
@@ -1354,6 +1382,7 @@
             document.getElementById('edit-title').value = meta.title;
             document.getElementById('edit-desc').value = meta.desc;
             document.getElementById('edit-active').checked = meta.active !== false;
+            document.getElementById('edit-hero').checked = !!meta.isHero;
 
             const categorySelect = document.getElementById('edit-category');
             const customBox = document.getElementById('custom-category-box');
@@ -1378,8 +1407,20 @@
 
             const title = document.getElementById('edit-title').value.trim();
             const desc = document.getElementById('edit-desc').value.trim();
-            const active = document.getElementById('edit-active').checked;
-            
+            const isHero = document.getElementById('edit-hero').checked;
+            let active = document.getElementById('edit-active').checked;
+
+            if (isHero) {
+                active = true;
+                document.getElementById('edit-active').checked = true;
+                // Clear isHero on all other items
+                Object.keys(metadataMap).forEach(key => {
+                    if (metadataMap[key]) {
+                        metadataMap[key].isHero = false;
+                    }
+                });
+            }
+
             let category = document.getElementById('edit-category').value;
             if (category === 'custom') {
                 category = document.getElementById('edit-custom-category').value.trim().toLowerCase();
@@ -1389,11 +1430,18 @@
                 title,
                 category,
                 desc,
-                active
+                active,
+                isHero
             };
 
             saveToLocalStorage();
-            showToast("Saved to LocalStorage!");
+             
+             // Auto-sync to disk if running locally
+             if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                 saveToDisk();
+             } else {
+                 showToast("Saved to LocalStorage!");
+             }
             
             // Re-render
             renderGrid();
@@ -1458,7 +1506,9 @@
                 const isOversized = img.sizeBytes > 1024 * 1024; // > 1MB
 
                 let featuredBadge = '';
-                if (meta && meta.active) {
+                if (meta && meta.isHero) {
+                    featuredBadge = `<div class="featured-indicator hero-badge">HERO PHOTO</div>`;
+                } else if (meta && meta.active) {
                     featuredBadge = `<div class="featured-indicator">ACTIVE</div>`;
                 }
 
@@ -1551,12 +1601,9 @@
             });
         }
 
-        // Export Functionality
-        function exportDataFile() {
-            // Build the data array for active items
+        // Export & Local Sync Functionality
+        function getCurationJSONData() {
             const exportArray = [];
-            
-            // We want to export details for all scanned files that have curation metadata
             allImages.forEach(img => {
                 const meta = metadataMap[img.path];
                 if (meta) {
@@ -1568,6 +1615,7 @@
                         category: meta.category,
                         desc: meta.desc,
                         active: meta.active,
+                        isHero: !!meta.isHero,
                         sizeBytes: img.sizeBytes,
                         sizeFormatted: img.sizeFormatted
                     });
@@ -1581,13 +1629,18 @@
                         category: "other",
                         desc: "",
                         active: false,
+                        isHero: false,
                         sizeBytes: img.sizeBytes,
                         sizeFormatted: img.sizeFormatted
                     });
                 }
             });
+            return exportArray;
+        }
 
-            const blob = new Blob([JSON.stringify(exportArray, null, 4)], { type: 'application/json' });
+        function exportDataFile() {
+            const data = getCurationJSONData();
+            const blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             
             const link = document.createElement('a');
@@ -1598,6 +1651,28 @@
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
             showToast("Exported portfolio-data.json!");
+        }
+
+        function saveToDisk() {
+            const data = getCurationJSONData();
+            fetch('/save-portfolio-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data, null, 4)
+            })
+            .then(res => {
+                if (res.ok) {
+                    showToast("portfolio-data.json saved to disk!");
+                } else {
+                    throw new Error("POST returned " + res.status);
+                }
+            })
+            .catch(err => {
+                console.error("Local save failed:", err);
+                showToast("Direct save failed. Download instead.");
+            });
         }
 
         // Toast Helpers

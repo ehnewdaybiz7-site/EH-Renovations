@@ -204,6 +204,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             if (Array.isArray(data)) {
+                // Find and apply the Hero Photo background override if present and active
+                const heroPhoto = data.find(item => item.isHero && item.active);
+                if (heroPhoto) {
+                    const heroSec = document.querySelector('.hero-section');
+                    if (heroSec) {
+                        heroSec.style.setProperty('--hero-bg-img', `url('${heroPhoto.path}')`);
+                    }
+                }
+
                 const galleryGrid = document.getElementById('portfolio-gallery-grid');
                 if (galleryGrid) {
                     galleryGrid.innerHTML = ''; // Clear fallback HTML

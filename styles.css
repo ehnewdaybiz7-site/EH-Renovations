@@ -307,7 +307,7 @@ ul {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('Renovation Booklet/20191219_123147_HDR.jpg');
+    background-image: var(--hero-bg-img, url('Renovation Booklet/20191219_123147_HDR.jpg'));
     background-size: cover;
     background-position: center 30%;
     opacity: 0.25;

@@ -12,6 +12,23 @@ try {
         $response = $context.Response
         
         $rawUrl = $request.RawUrl.Split('?')[0]
+        
+        if ($request.HttpMethod -eq "POST" -and $rawUrl -eq "/save-portfolio-data") {
+            $reader = New-Object System.IO.StreamReader($request.InputStream)
+            $body = $reader.ReadToEnd()
+            $reader.Close()
+            
+            $targetPath = Join-Path $baseDir "portfolio-data.json"
+            [System.IO.File]::WriteAllText($targetPath, $body)
+            
+            $response.StatusCode = 200
+            $response.ContentType = "application/json; charset=utf-8"
+            $okBytes = [System.Text.Encoding]::UTF8.GetBytes('{"status":"ok"}')
+            $response.OutputStream.Write($okBytes, 0, $okBytes.Length)
+            $response.Close()
+            continue
+        }
+
         $decodedUrl = [System.Uri]::UnescapeDataString($rawUrl)
         $relPath = $decodedUrl.TrimStart('/')
         if ([string]::IsNullOrEmpty($relPath)) {

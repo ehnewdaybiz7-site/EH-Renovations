@@ -7,6 +7,7 @@
         "category": "other",
         "desc": "Adding slide door to new  Basement toilets addition.",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1105981,
         "sizeFormatted": "1.05 MB"
     },
@@ -18,6 +19,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": true,
         "sizeBytes": 445405,
         "sizeFormatted": "434.97 KB"
     },
@@ -29,6 +31,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 898226,
         "sizeFormatted": "877.17 KB"
     },
@@ -40,6 +43,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 561123,
         "sizeFormatted": "547.97 KB"
     },
@@ -51,6 +55,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 779665,
         "sizeFormatted": "761.39 KB"
     },
@@ -62,6 +67,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 5053372,
         "sizeFormatted": "4.82 MB"
     },
@@ -73,6 +79,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 5045145,
         "sizeFormatted": "4.81 MB"
     },
@@ -84,6 +91,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4152279,
         "sizeFormatted": "3.96 MB"
     },
@@ -95,6 +103,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3703043,
         "sizeFormatted": "3.53 MB"
     },
@@ -106,6 +115,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 5826133,
         "sizeFormatted": "5.56 MB"
     },
@@ -117,6 +127,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 5812671,
         "sizeFormatted": "5.54 MB"
     },
@@ -128,6 +139,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 6082246,
         "sizeFormatted": "5.80 MB"
     },
@@ -139,6 +151,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 5503444,
         "sizeFormatted": "5.25 MB"
     },
@@ -150,6 +163,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 5234284,
         "sizeFormatted": "4.99 MB"
     },
@@ -161,6 +175,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4606668,
         "sizeFormatted": "4.39 MB"
     },
@@ -172,6 +187,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4648785,
         "sizeFormatted": "4.43 MB"
     },
@@ -183,6 +199,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4684984,
         "sizeFormatted": "4.47 MB"
     },
@@ -194,6 +211,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4334832,
         "sizeFormatted": "4.13 MB"
     },
@@ -205,6 +223,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4936848,
         "sizeFormatted": "4.71 MB"
     },
@@ -216,6 +235,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 5219730,
         "sizeFormatted": "4.98 MB"
     },
@@ -227,6 +247,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4651571,
         "sizeFormatted": "4.44 MB"
     },
@@ -238,6 +259,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4501808,
         "sizeFormatted": "4.29 MB"
     },
@@ -249,6 +271,7 @@
         "category": "kitchen",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3371480,
         "sizeFormatted": "3.22 MB"
     },
@@ -260,6 +283,7 @@
         "category": "kitchen",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3819990,
         "sizeFormatted": "3.64 MB"
     },
@@ -271,6 +295,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4274741,
         "sizeFormatted": "4.08 MB"
     },
@@ -282,6 +307,7 @@
         "category": "kitchen",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3422549,
         "sizeFormatted": "3.26 MB"
     },
@@ -293,6 +319,7 @@
         "category": "kitchen",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3869496,
         "sizeFormatted": "3.69 MB"
     },
@@ -304,6 +331,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 3967480,
         "sizeFormatted": "3.78 MB"
     },
@@ -315,6 +343,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 3836138,
         "sizeFormatted": "3.66 MB"
     },
@@ -326,6 +355,7 @@
         "category": "kitchen",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3760854,
         "sizeFormatted": "3.59 MB"
     },
@@ -337,6 +367,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3867011,
         "sizeFormatted": "3.69 MB"
     },
@@ -348,6 +379,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 3372759,
         "sizeFormatted": "3.22 MB"
     },
@@ -359,6 +391,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4265087,
         "sizeFormatted": "4.07 MB"
     },
@@ -370,6 +403,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4059051,
         "sizeFormatted": "3.87 MB"
     },
@@ -381,6 +415,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3655643,
         "sizeFormatted": "3.49 MB"
     },
@@ -392,6 +427,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 3800754,
         "sizeFormatted": "3.62 MB"
     },
@@ -403,6 +439,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4006755,
         "sizeFormatted": "3.82 MB"
     },
@@ -414,6 +451,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4113828,
         "sizeFormatted": "3.92 MB"
     },
@@ -425,6 +463,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 3909738,
         "sizeFormatted": "3.73 MB"
     },
@@ -436,6 +475,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4304231,
         "sizeFormatted": "4.10 MB"
     },
@@ -447,6 +487,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4333239,
         "sizeFormatted": "4.13 MB"
     },
@@ -458,6 +499,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 4471271,
         "sizeFormatted": "4.26 MB"
     },
@@ -469,6 +511,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 677148,
         "sizeFormatted": "661.28 KB"
     },
@@ -480,6 +523,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 677148,
         "sizeFormatted": "661.28 KB"
     },
@@ -491,6 +535,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 578103,
         "sizeFormatted": "564.55 KB"
     },
@@ -502,6 +547,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 578103,
         "sizeFormatted": "564.55 KB"
     },
@@ -513,6 +559,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4062627,
         "sizeFormatted": "3.87 MB"
     },
@@ -524,6 +571,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3203484,
         "sizeFormatted": "3.06 MB"
     },
@@ -535,6 +583,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 10883370,
         "sizeFormatted": "10.38 MB"
     },
@@ -546,6 +595,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 835075,
         "sizeFormatted": "815.50 KB"
     },
@@ -557,6 +607,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4178431,
         "sizeFormatted": "3.98 MB"
     },
@@ -568,6 +619,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4083452,
         "sizeFormatted": "3.89 MB"
     },
@@ -579,6 +631,7 @@
         "category": "other",
         "desc": "",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3037777,
         "sizeFormatted": "2.90 MB"
     },
@@ -590,6 +643,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 1108470,
         "sizeFormatted": "1.06 MB"
     },
@@ -601,6 +655,7 @@
         "category": "other",
         "desc": "",
         "active": false,
+        "isHero": false,
         "sizeBytes": 73988,
         "sizeFormatted": "72.25 KB"
     },
@@ -612,6 +667,7 @@
         "category": "kitchen",
         "desc": "White kitchen cabinets, beige countertops, stainless steel sink, and wood flooring",
         "active": false,
+        "isHero": false,
         "sizeBytes": 1437268,
         "sizeFormatted": "1.37 MB"
     },
@@ -623,6 +679,7 @@
         "category": "exterior",
         "desc": "Black roof vent installed on a grey shingled roof",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4282287,
         "sizeFormatted": "4.08 MB"
     },
@@ -634,6 +691,7 @@
         "category": "exterior",
         "desc": "Front exterior view of a single-story grey house with blue trim, yard, and motorcycle safety sign",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2562883,
         "sizeFormatted": "2.44 MB"
     },
@@ -645,6 +703,7 @@
         "category": "exterior",
         "desc": "Side exterior view of a two-story house with white siding and a grassy yard",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2570436,
         "sizeFormatted": "2.45 MB"
     },
@@ -656,6 +715,7 @@
         "category": "exterior",
         "desc": "Front lawn and porch of grey house with motorcycle safety sign",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1901920,
         "sizeFormatted": "1.81 MB"
     },
@@ -667,6 +727,7 @@
         "category": "exterior",
         "desc": "Teal garage door and driveway of grey house with motorcycle safety sign",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2458898,
         "sizeFormatted": "2.34 MB"
     },
@@ -678,6 +739,7 @@
         "category": "exterior",
         "desc": "Full side-front view of grey house on grassy hill with teal garage door and window frames",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3847606,
         "sizeFormatted": "3.67 MB"
     },
@@ -689,6 +751,7 @@
         "category": "exterior",
         "desc": "Pink painted garden shed with white double doors next to wooden deck stairs",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2181049,
         "sizeFormatted": "2.08 MB"
     },
@@ -700,6 +763,7 @@
         "category": "exterior",
         "desc": "Plywood roof sheathing installation with black seam sealant tape and paint can",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1712672,
         "sizeFormatted": "1.63 MB"
     },
@@ -711,6 +775,7 @@
         "category": "exterior",
         "desc": "Under-construction plywood roof sheathing on a building structure",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1639192,
         "sizeFormatted": "1.56 MB"
     },
@@ -722,6 +787,7 @@
         "category": "exterior",
         "desc": "Close-up of sealed roof ridge seam on plywood decking",
         "active": true,
+        "isHero": false,
         "sizeBytes": 771907,
         "sizeFormatted": "753.82 KB"
     },
@@ -733,6 +799,7 @@
         "category": "exterior",
         "desc": "Roof-level view of a hilly residential neighborhood with blue sky and clouds",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2698816,
         "sizeFormatted": "2.57 MB"
     },
@@ -744,6 +811,7 @@
         "category": "bathroom",
         "desc": "Demolition of a concrete floor using a jackhammer inside framed walls",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1121958,
         "sizeFormatted": "1.07 MB"
     },
@@ -755,6 +823,7 @@
         "category": "bathroom",
         "desc": "Under-construction bathroom with wooden framing, pedestal sink, and toilet installed",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1105981,
         "sizeFormatted": "1.05 MB"
     },
@@ -766,6 +835,7 @@
         "category": "bathroom",
         "desc": "Sub-floor black PVC drainage plumbing layout under concrete slab",
         "active": true,
+        "isHero": false,
         "sizeBytes": 424556,
         "sizeFormatted": "414.61 KB"
     },
@@ -777,6 +847,7 @@
         "category": "bathroom",
         "desc": "Trench in concrete floor with newly installed black PVC drain pipes and tools",
         "active": true,
+        "isHero": false,
         "sizeBytes": 629087,
         "sizeFormatted": "614.34 KB"
     },
@@ -788,6 +859,7 @@
         "category": "bathroom",
         "desc": "Framed shower stall base and plywood walls under construction",
         "active": true,
+        "isHero": false,
         "sizeBytes": 780568,
         "sizeFormatted": "762.27 KB"
     },
@@ -799,6 +871,7 @@
         "category": "bathroom",
         "desc": "Under-sink plumbing showing P-trap and supply lines for a bathroom sink",
         "active": true,
+        "isHero": false,
         "sizeBytes": 605167,
         "sizeFormatted": "590.98 KB"
     },
@@ -810,6 +883,7 @@
         "category": "kitchen",
         "desc": "Under-sink plumbing of a kitchen sink with garbage disposal unit installed",
         "active": true,
+        "isHero": false,
         "sizeBytes": 711800,
         "sizeFormatted": "695.12 KB"
     },
@@ -821,6 +895,7 @@
         "category": "kitchen",
         "desc": "Modern kitchen with white cabinets, dark granite countertops, stainless steel sink, and dishwasher",
         "active": true,
+        "isHero": false,
         "sizeBytes": 555449,
         "sizeFormatted": "542.43 KB"
     },
@@ -832,6 +907,7 @@
         "category": "bathroom",
         "desc": "Hot water heater tank with copper pipe connections and safety straps in closet",
         "active": true,
+        "isHero": false,
         "sizeBytes": 485009,
         "sizeFormatted": "473.64 KB"
     },
@@ -843,6 +919,7 @@
         "category": "interior",
         "desc": "Renovated interior space with new flooring, fresh wall finish, and clean trim carpentry",
         "active": true,
+        "isHero": false,
         "sizeBytes": 381054,
         "sizeFormatted": "372.12 KB"
     },
@@ -854,6 +931,7 @@
         "category": "exterior",
         "desc": "Backyard deck framing preparation on the dirt ground next to a house wall",
         "active": true,
+        "isHero": false,
         "sizeBytes": 4042800,
         "sizeFormatted": "3.86 MB"
     },
@@ -865,6 +943,7 @@
         "category": "exterior",
         "desc": "Vertical wooden deck support posts installed in backyard dirt ground",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1684432,
         "sizeFormatted": "1.61 MB"
     },
@@ -876,6 +955,7 @@
         "category": "exterior",
         "desc": "Completed wooden backyard deck with wooden railings and lattice skirt",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1942276,
         "sizeFormatted": "1.85 MB"
     },
@@ -887,6 +967,7 @@
         "category": "exterior",
         "desc": "High-angle view of newly constructed wooden deck floor and railing",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1878651,
         "sizeFormatted": "1.79 MB"
     },
@@ -898,6 +979,7 @@
         "category": "interior",
         "desc": "Wooden deck stairs with handrails leading down to a concrete yard landing",
         "active": true,
+        "isHero": false,
         "sizeBytes": 3038557,
         "sizeFormatted": "2.90 MB"
     },
@@ -909,6 +991,7 @@
         "category": "exterior",
         "desc": "Side view of wooden deck showing railing and lattice skirting",
         "active": true,
+        "isHero": false,
         "sizeBytes": 2779130,
         "sizeFormatted": "2.65 MB"
     },
@@ -920,6 +1003,7 @@
         "category": "exterior",
         "desc": "Garden shed under construction with beige siding and window installed",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1379983,
         "sizeFormatted": "1.32 MB"
     },
@@ -931,6 +1015,7 @@
         "category": "exterior",
         "desc": "Worker installing plywood roof sheathing inside a framed garden shed",
         "active": true,
+        "isHero": false,
         "sizeBytes": 922222,
         "sizeFormatted": "900.61 KB"
     },
@@ -942,6 +1027,7 @@
         "category": "exterior",
         "desc": "Side view of unfinished garden shed with window frame and door opening",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1394065,
         "sizeFormatted": "1.33 MB"
     },
@@ -953,6 +1039,7 @@
         "category": "exterior",
         "desc": "Worker standing inside the wooden frame of a garden shed under construction",
         "active": true,
+        "isHero": false,
         "sizeBytes": 1837878,
         "sizeFormatted": "1.75 MB"
     },
@@ -964,6 +1051,7 @@
         "category": "kitchen",
         "desc": "Older kitchen layout with raised white breakfast bar, double sink, and white refrigerator",
         "active": true,
+        "isHero": false,
         "sizeBytes": 495395,
         "sizeFormatted": "483.78 KB"
     },
@@ -975,6 +1063,7 @@
         "category": "kitchen",
         "desc": "Kitchen with stainless steel double oven gas range, wood cabinets, and reddish countertops",
         "active": true,
+        "isHero": false,
         "sizeBytes": 643331,
         "sizeFormatted": "628.25 KB"
     }
