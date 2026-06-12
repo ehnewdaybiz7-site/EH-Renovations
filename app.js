@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Load dynamic items from portfolio-data.json
-    fetch('portfolio-data.json')
+    fetch('portfolio-data.json?t=' + Date.now())
         .then(res => {
             if (!res.ok) throw new Error("Portfolio data not found");
             return res.json();

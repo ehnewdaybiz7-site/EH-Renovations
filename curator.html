@@ -1220,7 +1220,7 @@
 
         // Try to fetch scanned-images.json from local HTTP server
         function fetchImageDatabase() {
-            fetch('scanned-images.json')
+            fetch('scanned-images.json?t=' + Date.now())
                 .then(res => {
                     if (!res.ok) throw new Error("File not found");
                     return res.json();
@@ -1237,7 +1237,7 @@
                 });
 
             // Try to load any existing portfolio-data.json too
-            fetch('portfolio-data.json')
+            fetch('portfolio-data.json?t=' + Date.now())
                 .then(res => {
                     if (res.ok) return res.json();
                 })
